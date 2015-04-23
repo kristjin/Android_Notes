@@ -3,6 +3,8 @@ package com.thinkful.notes;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +12,9 @@ import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private NoteListItemAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +22,13 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new NoteListItemAdapter(this, mRecyclerView);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 
