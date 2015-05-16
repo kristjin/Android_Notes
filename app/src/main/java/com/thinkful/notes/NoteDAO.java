@@ -33,7 +33,7 @@ public class NoteDAO {
         db.insert(NotesDBContract.Note.TABLE_NAME, null, values);
     }
 
-    public List<NoteListItem> list(){
+    public ArrayList<NoteListItem> list(){
         NotesDBHelper helper = NotesDBHelper.getInstance(context);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -55,7 +55,7 @@ public class NoteDAO {
                 sortOrder                               // The sort order
         );
 
-        List<NoteListItem> notes = new ArrayList<NoteListItem>();
+        ArrayList<NoteListItem> notes = new ArrayList<NoteListItem>();
 
         while(c.moveToNext()){
             String text = c.getString(

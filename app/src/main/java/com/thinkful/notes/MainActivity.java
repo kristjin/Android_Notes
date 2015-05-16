@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 
 public class MainActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
@@ -43,6 +45,9 @@ public class MainActivity extends ActionBarActivity {
                 mAdapter.addItem(i);
                 // Set the EditText to an empty string
                 view.setText("");
+                //Instantiate the NoteDAO class
+                NoteDAO dao = new NoteDAO(MainActivity.this);
+                dao.save(i);
             }
         });
 
