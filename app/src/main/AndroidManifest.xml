@@ -24,6 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thinkful.notes.MainActivity" />
         </activity>
+        <activity
+            android:name=".ColorSettings"
+            android:label="@string/title_activity_color_settings"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thinkful.notes.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

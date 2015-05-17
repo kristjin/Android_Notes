@@ -20,6 +20,7 @@ public class EditNoteActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_note);
+
         Intent intent = getIntent();
         note = (NoteListItem)intent.getSerializableExtra("Note");
         noteEditText = (EditText)findViewById(R.id.note_text_edit);

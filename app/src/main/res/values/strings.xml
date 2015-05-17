@@ -14,4 +14,20 @@
     <string name="setting_color_message">R - Red; G - Green; W - White</string>
     <string name="positive_button_label">OK</string>
     <string name="negative_button_label">CANCEL</string>
+    <string name="title_activity_color_settings">ColorSettings</string>
+
+    <string name="color_settings_page_label">Settings</string>
+    <string name="background_setting_label">Background Color</string>
+    <string name="foreground_setting_label">Foreground Color</string>
+    <string name="background_red_label">Red</string>
+    <string name="background_green_label">Green</string>
+    <string name="background_white_label">White</string>
+    <string name="foreground_yellow_label">Yellow</string>
+    <string name="foreground_purple_label">Purple</string>
+    <string name="foreground_grey_label">Grey</string>
+    <string name="foreground_black_label">Black</string>
+    <string name="color_save_label">Save</string>
+    
+
+
 </resources>

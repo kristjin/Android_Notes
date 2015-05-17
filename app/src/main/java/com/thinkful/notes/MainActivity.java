@@ -67,33 +67,6 @@ public class MainActivity extends ActionBarActivity {
         setColor();
     }
 
-    public void openColorDialog(){
-        final EditText input = new EditText(this);
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.setting_color_title)
-                .setMessage(R.string.setting_color_message)
-                .setView(input)
-                .setPositiveButton(R.string.positive_button_label,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                String value = input.getText().toString();
-                                SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putString("NOTE_COLOR", value);
-                                editor.commit();
-                                setColor();
-                            }
-                        })
-                .setNegativeButton(R.string.negative_button_label,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //No need for code here.
-                            }
-                        })
-                .show();
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == 1) {
@@ -122,7 +95,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            openColorDialog();
+            // open Color Settings Activity page;
+
             return true;
         }
 
