@@ -1,11 +1,14 @@
 package com.thinkful.notes;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +47,32 @@ public class NoteListItemAdapter extends RecyclerView.Adapter<NoteListItemAdapte
             @Override
             public void onClick(View v) {
                 // Get the position of v
-                int pos = mRecyclerView.getChildLayoutPosition(v);
-                // Call the removeItem method with the position
+                int pos = mRecyclerView.getChildPosition(v);
+                NoteListItem noteListItem = mNoteListItems.get(pos);
+
+                NoteDAO dao = new NoteDAO(mContext);
+                dao.delete(noteListItem);
+
+                Toast.makeText(mContext, "Deleted: " + noteListItem.getText(), Toast.LENGTH_LONG).show();
+
                 removeItem(pos);
+
+            }
+        });
+        v.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                int position = mRecyclerView.getChildPosition(v);
+                NoteListItem noteListItem = mNoteListItems.get(position);
+                removeItem(position);
+
+                Intent intent = new Intent(mContext, EditNoteActivity.class);
+                intent.putExtra("Note", noteListItem);
+
+                ((Activity)mContext).startActivityForResult(intent, 1);
+
+                return true;
             }
         });
         return new ViewHolder(v);

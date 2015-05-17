@@ -21,6 +21,35 @@ public class NoteDAO {
         this.context = context;
     }
 
+    public void delete(NoteListItem noteListItem){
+        String selection = NotesDBContract.Note.COLUMN_NAME_ID + " = ?";
+        String[] selectionArgs = { String.valueOf(noteListItem.getId()) };
+
+        NotesDBHelper helper = NotesDBHelper.getInstance(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        db.delete(NotesDBContract.Note.TABLE_NAME, selection, selectionArgs);
+
+
+    }
+
+    public void update(NoteListItem noteListItem){
+        NotesDBHelper helper = NotesDBHelper.getInstance(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(NotesDBContract.Note.COLUMN_NAME_NOTE_TEXT, noteListItem.getText());
+
+        String selection = NotesDBContract.Note.COLUMN_NAME_ID + " = ?";
+        String[] selectionArgs = { String.valueOf(noteListItem.getId()) };
+
+        int count = db.update(
+                NotesDBContract.Note.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
     public void save(NoteListItem note){
         NotesDBHelper helper = NotesDBHelper.getInstance(context);
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -38,6 +67,7 @@ public class NoteDAO {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] projection = {
+                NotesDBContract.Note.COLUMN_NAME_ID,
                 NotesDBContract.Note.COLUMN_NAME_NOTE_TEXT,
                 NotesDBContract.Note.COLUMN_NAME_STATUS,
                 NotesDBContract.Note.COLUMN_NAME_NOTE_DATE
@@ -65,8 +95,10 @@ public class NoteDAO {
             Calendar date = new GregorianCalendar();
             date.setTimeInMillis(c.getLong(c.getColumnIndex(
                     NotesDBContract.Note.COLUMN_NAME_NOTE_DATE)) * 1000);
-            notes.add(new NoteListItem(text, status, date));
+            long id = c.getLong(c.getColumnIndex(NotesDBContract.Note.COLUMN_NAME_ID));
+            notes.add(new NoteListItem(id, text, status, date));
         }
+        c.close();
         return notes;
     }
 

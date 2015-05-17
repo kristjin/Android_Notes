@@ -9,4 +9,9 @@
     <string name="note_status_label">Resolved</string>
     <string name="note_tags_label">Tags:</string>
     <string name="note_save_label">Save</string>
+
+    <string name="setting_color_title">Note Color Setting</string>
+    <string name="setting_color_message">R - Red; G - Green; W - White</string>
+    <string name="positive_button_label">OK</string>
+    <string name="negative_button_label">CANCEL</string>
 </resources>

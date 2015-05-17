@@ -1,8 +1,14 @@
 package com.thinkful.notes;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,8 +63,48 @@ public class MainActivity extends ActionBarActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new NoteListItemAdapter(this, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
+
+        setColor();
     }
 
+    public void openColorDialog(){
+        final EditText input = new EditText(this);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.setting_color_title)
+                .setMessage(R.string.setting_color_message)
+                .setView(input)
+                .setPositiveButton(R.string.positive_button_label,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String value = input.getText().toString();
+                                SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("NOTE_COLOR", value);
+                                editor.commit();
+                                setColor();
+                            }
+                        })
+                .setNegativeButton(R.string.negative_button_label,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //No need for code here.
+                            }
+                        })
+                .show();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            if (data.hasExtra("Note")) {
+                NoteListItem note = (NoteListItem)data.getSerializableExtra("Note");
+                Toast.makeText(this, note.getText(),
+                        Toast.LENGTH_LONG).show();
+                mAdapter.addItem(note);
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,11 +122,22 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast toast = Toast.makeText(getApplicationContext(), "This app has no settings.", Toast.LENGTH_SHORT);
-            toast.show();
+            openColorDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setColor(){
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        String color = prefs.getString("NOTE_COLOR", "W");
+        if(color.toUpperCase().contains("G")){
+            mRecyclerView.setBackgroundColor(Color.GREEN);
+        }else if(color.toUpperCase().contains("R")){
+            mRecyclerView.setBackgroundColor(Color.RED);
+        }else{
+            mRecyclerView.setBackgroundColor(Color.WHITE);
+        }
     }
 }

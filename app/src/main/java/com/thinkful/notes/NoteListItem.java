@@ -4,19 +4,21 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 public class NoteListItem implements Serializable {
-    private long id;
+
+    private Long id;
     private String text;
     private String status;
     private Calendar date;
 
     public NoteListItem(String text) {
-        this(text, "Open", Calendar.getInstance());
+        this(null, text, "Open", Calendar.getInstance());
     }
 
-    public NoteListItem(String text, String status, Calendar date){
-        this.text = text;
-        this.status = status;
-        this.date = date;
+    public NoteListItem(Long id, String text, String status, Calendar date){
+        setId(id);
+        setText(text);
+        setStatus(status);
+        setDate(date);
     }
 
     public String getText() {
