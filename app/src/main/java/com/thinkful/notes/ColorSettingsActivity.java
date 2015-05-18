@@ -1,9 +1,12 @@
 package com.thinkful.notes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioGroup;
 
 
 @SuppressWarnings("deprecation")
@@ -13,6 +16,23 @@ public class ColorSettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_settings);
+
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        RadioGroup bgGroup = (RadioGroup) findViewById(R.id.BGRadio);
+        String bgColor = prefs.getString("NOTE_COLOR", "W");
+        assert bgColor != null;
+        switch (bgColor) {
+            case "G":
+                bgGroup.check(R.id.green);
+                break;
+            case "R":
+                bgGroup.check(R.id.red);
+                break;
+            default:
+                bgGroup.check(R.id.white);
+                break;
+        }
+
     }
 
     @Override
