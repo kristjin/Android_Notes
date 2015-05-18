@@ -2,13 +2,11 @@ package com.thinkful.notes;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,14 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 
 public class MainActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private NoteListItemAdapter mAdapter;
     private Button mButton;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,17 +92,24 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            // open Color Settings Activity page;
 
+            // open Color Settings Activity page;
+            launchColorSettings(this);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void launchColorSettings(Context mContext){
+        Intent intent = new Intent(mContext, ColorSettingsActivity.class);
+        ((Activity)mContext).startActivityForResult(intent, 1);
+    }
+
     public void setColor(){
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         String color = prefs.getString("NOTE_COLOR", "W");
+        assert color != null;
         if(color.toUpperCase().contains("G")){
             mRecyclerView.setBackgroundColor(Color.GREEN);
         }else if(color.toUpperCase().contains("R")){
