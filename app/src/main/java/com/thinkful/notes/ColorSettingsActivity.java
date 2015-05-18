@@ -1,11 +1,14 @@
 package com.thinkful.notes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 
 public class ColorSettingsActivity extends AppCompatActivity {
@@ -15,7 +18,17 @@ public class ColorSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_settings);
 
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+
         RadioGroup bgGroup = (RadioGroup) findViewById(R.id.BGRadio);
+        String bgColor = prefs.getString("NOTE_COLOR", "W");
+
+        if (bgColor.equals("G")) { bgGroup.check(R.id.green);
+        } else if (bgColor.equals("R")) { bgGroup.check(R.id.red);
+        } else { bgGroup.check(R.id.white);
+        }
     }
 
     @Override
