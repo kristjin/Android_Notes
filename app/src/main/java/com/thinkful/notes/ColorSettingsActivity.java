@@ -19,7 +19,7 @@ public class ColorSettingsActivity extends ActionBarActivity {
 
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
         RadioGroup bgGroup = (RadioGroup) findViewById(R.id.BGRadio);
-        String bgColor = prefs.getString("NOTE_COLOR", "W");
+        String bgColor = prefs.getString("BG_COLOR", "W");
         assert bgColor != null;
         switch (bgColor) {
             case "G":
@@ -30,6 +30,24 @@ public class ColorSettingsActivity extends ActionBarActivity {
                 break;
             default:
                 bgGroup.check(R.id.white);
+                break;
+        }
+
+        RadioGroup fgGroup = (RadioGroup) findViewById(R.id.FGRadio);
+        String fgColor = prefs.getString("FG_COLOR", "B");
+        assert fgColor != null;
+        switch (fgColor) {
+            case "P":
+                fgGroup.check(R.id.purple);
+                break;
+            case "Y":
+                fgGroup.check(R.id.yellow);
+                break;
+            case "G":
+                fgGroup.check(R.id.grey);
+                break;
+            default:
+                fgGroup.check(R.id.black);
                 break;
         }
 
