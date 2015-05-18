@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+@SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;

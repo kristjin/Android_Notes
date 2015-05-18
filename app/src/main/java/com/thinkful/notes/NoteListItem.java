@@ -15,10 +15,10 @@ public class NoteListItem implements Serializable {
     }
 
     public NoteListItem(Long id, String text, String status, Calendar date){
-        setId(id);
-        setText(text);
-        setStatus(status);
-        setDate(date);
+        this.id = id;
+        this.text = text;
+        this.status = status;
+        this.date = date;
     }
 
     public String getText() {

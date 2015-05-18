@@ -2,15 +2,12 @@ package com.thinkful.notes;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by Matthew on 5/12/2015.
- */
 public class NotesDBContract {
     /* Name the DB */
     public static final String DATABASE_NAME = "notesdb";
 
     /*When you change the schema you need to update the version number*/
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     /* Empty Constructor - Prevents accidental instantiation of class */
     private NotesDBContract() {}

@@ -8,11 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
-
-/**
- * Created by Matthew on 5/13/2015.
- */
 
 public class NoteDAO {
     private Context context;
@@ -85,7 +80,7 @@ public class NoteDAO {
                 sortOrder                               // The sort order
         );
 
-        ArrayList<NoteListItem> notes = new ArrayList<NoteListItem>();
+        ArrayList<NoteListItem> notes = new ArrayList<>();
 
         while(c.moveToNext()){
             String text = c.getString(

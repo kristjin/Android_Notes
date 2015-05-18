@@ -11,13 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NoteListItemAdapter extends RecyclerView.Adapter<NoteListItemAdapter.ViewHolder> {
 
     private Context mContext;
     private RecyclerView mRecyclerView;
-    private ArrayList<NoteListItem> mNoteListItems = new ArrayList<NoteListItem>();
+    private ArrayList<NoteListItem> mNoteListItems = new ArrayList<>();
 
     public NoteListItemAdapter(Context context, RecyclerView recyclerView) {
         this.mContext = context;
@@ -47,7 +46,7 @@ public class NoteListItemAdapter extends RecyclerView.Adapter<NoteListItemAdapte
             @Override
             public void onClick(View v) {
                 // Get the position of v
-                int pos = mRecyclerView.getChildPosition(v);
+                int pos = mRecyclerView.getChildLayoutPosition(v);
                 NoteListItem noteListItem = mNoteListItems.get(pos);
 
                 NoteDAO dao = new NoteDAO(mContext);
@@ -63,7 +62,7 @@ public class NoteListItemAdapter extends RecyclerView.Adapter<NoteListItemAdapte
             @Override
             public boolean onLongClick(View v) {
 
-                int position = mRecyclerView.getChildPosition(v);
+                int position = mRecyclerView.getChildLayoutPosition(v);
                 NoteListItem noteListItem = mNoteListItems.get(position);
                 removeItem(position);
 

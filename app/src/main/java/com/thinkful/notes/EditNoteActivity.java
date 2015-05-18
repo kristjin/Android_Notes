@@ -1,8 +1,8 @@
 package com.thinkful.notes;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-public class EditNoteActivity extends AppCompatActivity {
+@SuppressWarnings("deprecation")
+public class EditNoteActivity extends ActionBarActivity {
+
     private EditText noteEditText;
     private NoteListItem note;
     private Button saveButton;
