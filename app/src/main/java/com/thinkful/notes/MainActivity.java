@@ -68,13 +68,62 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == 1) {
-            if (data.hasExtra("Note")) {
+        if (resultCode == RESULT_OK && requestCode == 1)
+        {
+            if (data.hasExtra("Note"))
+            {
                 NoteListItem note = (NoteListItem)data.getSerializableExtra("Note");
                 Toast.makeText(this, note.getText(),
                         Toast.LENGTH_LONG).show();
                 mAdapter.addItem(note);
             }
+        }
+        else if (resultCode == RESULT_OK && requestCode == 2)
+        {
+            SharedPreferences prefs;
+            prefs = getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            String BG = (String)data.getSerializableExtra("BG");
+            String FG = (String)data.getSerializableExtra("FG");
+
+            switch(BG)
+            {
+                case "R":
+                    editor.putString("BG_COLOR", "R");
+                    break;
+                case "G":
+                    editor.putString("BG_COLOR", "G");
+                    break;
+                case "W":
+                    editor.putString("BG_COLOR", "W");
+                    break;
+                default:
+                    editor.putString("BG_COLOR", "W");
+                    break;
+            }
+
+            switch(FG)
+            {
+                case "P":
+                    editor.putString("FG_COLOR", "P");
+                    break;
+                case "Y":
+                    editor.putString("FG_COLOR", "Y");
+                    break;
+                case "G":
+                    editor.putString("FG_COLOR", "G");
+                    break;
+                case "B":
+                    editor.putString("FG_COLOR", "B");
+                    break;
+                default:
+                    editor.putString("FG_COLOR", "B");
+                    break;
+            }
+
+            editor.commit();
+            setColor();
         }
     }
 
@@ -105,19 +154,43 @@ public class MainActivity extends ActionBarActivity {
 
     public void launchColorSettings(Context mContext){
         Intent intent = new Intent(mContext, ColorSettingsActivity.class);
-        ((Activity)mContext).startActivityForResult(intent, 1);
+        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+        String bgColor = prefs.getString("BG_COLOR", "DEFAULT");
+        String fgColor = prefs.getString("FG_COLOR", "DEFAULT");
+
+        intent.putExtra("BG", bgColor);
+        intent.putExtra("FG", fgColor);
+
+        ((Activity)mContext).startActivityForResult(intent, 2);
     }
 
     public void setColor(){
+        Toast.makeText(this, "setColor() called!",
+                Toast.LENGTH_LONG).show();
         SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-        String color = prefs.getString("NOTE_COLOR", "W");
+        String color = prefs.getString("BG_COLOR", "DEFAULT");
+
         assert color != null;
-        if(color.toUpperCase().contains("G")){
-            mRecyclerView.setBackgroundColor(Color.GREEN);
-        }else if(color.toUpperCase().contains("R")){
-            mRecyclerView.setBackgroundColor(Color.RED);
-        }else{
-            mRecyclerView.setBackgroundColor(Color.WHITE);
+        switch (color)
+        {
+            case "G":
+                this.mRecyclerView.setBackgroundColor(Color.GREEN);
+                break;
+            case "R":
+                this.mRecyclerView.setBackgroundColor(Color.RED);
+                break;
+            case "W":
+                this.mRecyclerView.setBackgroundColor(Color.WHITE);
+                break;
+            default:
+                Toast.makeText(this, "Defaulting, color is " + color,
+                        Toast.LENGTH_LONG).show();
+                this.mRecyclerView.setBackgroundColor(Color.WHITE);
+                break;
         }
+
+        color = prefs.getString("FG_COLOR", "B");
+        assert color != null;
+
     }
 }

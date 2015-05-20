@@ -1,27 +1,58 @@
 package com.thinkful.notes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 
 @SuppressWarnings("deprecation")
-public class ColorSettingsActivity extends ActionBarActivity {
+public class ColorSettingsActivity extends ActionBarActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_settings);
 
-        SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-        RadioGroup bgGroup = (RadioGroup) findViewById(R.id.BGRadio);
-        String bgColor = prefs.getString("BG_COLOR", "W");
-        assert bgColor != null;
-        switch (bgColor) {
+        final RadioGroup bgGroup = (RadioGroup) findViewById(R.id.BGRadio);
+        final RadioGroup fgGroup = (RadioGroup) findViewById(R.id.FGRadio);
+        final Intent intent = getIntent();
+        final String bgColor = (String)intent.getSerializableExtra("BG");
+        final String fgColor = (String)intent.getSerializableExtra("FG");
+
+        setColorRadios(bgGroup, fgGroup, bgColor, fgColor);
+
+        Button mButton;
+        mButton = (Button) findViewById(R.id.save_colors);
+        mButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                final Intent goHome = new Intent();
+                saveColors(bgGroup, fgGroup, goHome);
+                setResult(RESULT_OK, goHome);
+                finish();
+            }
+        });
+    }
+
+    private void setColorRadios(
+            RadioGroup bgGroup,
+            RadioGroup fgGroup,
+            String bgColor,
+            String fgColor)
+    {
+
+        switch (bgColor)
+        {
             case "G":
                 bgGroup.check(R.id.green);
                 break;
@@ -33,10 +64,8 @@ public class ColorSettingsActivity extends ActionBarActivity {
                 break;
         }
 
-        RadioGroup fgGroup = (RadioGroup) findViewById(R.id.FGRadio);
-        String fgColor = prefs.getString("FG_COLOR", "B");
-        assert fgColor != null;
-        switch (fgColor) {
+        switch (fgColor)
+        {
             case "P":
                 fgGroup.check(R.id.purple);
                 break;
@@ -50,28 +79,49 @@ public class ColorSettingsActivity extends ActionBarActivity {
                 fgGroup.check(R.id.black);
                 break;
         }
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_color_settings, menu);
-        return true;
-    }
+    private void saveColors(
+            RadioGroup bgGroup,
+            RadioGroup fgGroup,
+            Intent intent)
+    {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        int checkedId = bgGroup.getCheckedRadioButtonId();
+        switch (checkedId)
+        {
+            case R.id.red:
+                intent.putExtra("BG", "R");
+                break;
+            case R.id.green:
+                intent.putExtra("BG", "G");
+                break;
+            case R.id.white:
+                intent.putExtra("BG", "W");
+                break;
+            default:
+                intent.putExtra("BG", "W");
+                break;
+        }
+        checkedId = fgGroup.getCheckedRadioButtonId();
+        switch (checkedId)
+        {
+            case R.id.purple:
+                intent.putExtra("FG", "P");
+                break;
+            case R.id.yellow:
+                intent.putExtra("FG", "Y");
+                break;
+            case R.id.grey:
+                intent.putExtra("FG", "G");
+                break;
+            case R.id.black:
+                intent.putExtra("FG", "B");
+                break;
+            default:
+                intent.putExtra("FG", "B");
+                break;
         }
 
-        return super.onOptionsItemSelected(item);
     }
 }
